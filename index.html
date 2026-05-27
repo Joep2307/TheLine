@@ -7,6 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+<link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet"/>
+<script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.20/leaflet-maplibre-gl.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -134,7 +137,37 @@ section{padding:100px 40px}
 .btn-outline{border:1px solid rgba(255,255,255,.25);color:var(--cream);padding:14px 32px;border-radius:2px;font-size:14px;font-weight:400;letter-spacing:.5px;text-decoration:none;transition:border-color .2s}
 .btn-outline:hover{border-color:rgba(255,255,255,.7)}
 
-footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);padding:32px 80px;display:flex;align-items:center;justify-content:space-between}
+/* ── Reviews ── */
+#reviews{padding:100px 80px;background:var(--sand)}
+#reviews .section-title{max-width:600px}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px}
+.review-card{background:var(--cream);padding:32px;border-radius:2px;display:flex;flex-direction:column;gap:16px}
+.review-stars{display:flex;gap:4px}
+.review-stars span{color:var(--coral);font-size:18px}
+.review-text{font-size:15px;line-height:1.7;color:var(--ink);opacity:.8;flex:1}
+.review-author{font-family:var(--display);font-weight:700;font-size:15px;color:var(--ink)}
+.review-route{font-size:11px;letter-spacing:2px;text-transform:uppercase;opacity:.45;margin-top:2px}
+.review-form{margin-top:60px;background:var(--cream);padding:40px;border-radius:2px;max-width:640px}
+.review-form h3{font-family:var(--display);font-size:28px;font-weight:700;margin-bottom:28px;color:var(--ink)}
+.form-group{margin-bottom:20px;display:flex;flex-direction:column;gap:6px}
+.form-group label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;opacity:.55;font-weight:500}
+.form-group input,.form-group textarea,.form-group select{background:var(--sand);border:none;border-radius:2px;padding:12px 16px;font-family:var(--body);font-size:15px;color:var(--ink);outline:none;transition:box-shadow .2s;width:100%}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{box-shadow:0 0 0 2px var(--coral)}
+.form-group textarea{resize:vertical;min-height:100px}
+.star-picker{display:flex;gap:8px;font-size:28px;cursor:pointer}
+.star-picker span{color:var(--sand);transition:color .15s;user-select:none}
+.star-picker span.active,.star-picker span:hover{color:var(--coral)}
+.btn-submit{background:var(--ink);color:var(--cream);padding:14px 32px;border:none;border-radius:2px;font-size:14px;font-weight:500;letter-spacing:.5px;cursor:pointer;font-family:var(--body);transition:background .2s,transform .15s;margin-top:8px}
+.btn-submit:hover{background:var(--coral);transform:translateY(-2px)}
+.form-success{display:none;padding:20px;background:var(--lime);border-radius:2px;font-weight:500;color:var(--ink);margin-top:16px}
+@media(max-width:900px){
+  #reviews{padding:60px 24px}
+  .reviews-grid{grid-template-columns:1fr}
+}
+#reviews { max-width: 800px; margin: 0 auto; padding: 80px 24px; }
+#reviews input, #reviews textarea, #reviews select { outline: none; transition: border-color .2s; }
+#reviews input:focus, #reviews textarea:focus, #reviews select:focus { border-color: var(--ink) !important; }
+#review-submit:hover { opacity: .85; }
 footer .nav-logo{color:var(--cream)}
 footer p{font-size:12px;color:var(--cream);opacity:.35}
 
@@ -289,6 +322,46 @@ footer p{font-size:12px;color:var(--cream);opacity:.35}
   </div>
 </section>
 
+<section id="reviews">
+  <div class="section-eyebrow reveal">Community</div>
+  <h2 class="section-title reveal">What people<br/><em>are saying</em></h2>
+
+  <div id="reviews-list" style="display:flex;flex-direction:column;gap:16px;max-width:640px;margin:0 auto 40px"></div>
+
+  <div class="reveal" style="max-width:640px;margin:0 auto;background:var(--sand);border-radius:16px;padding:28px 28px 24px">
+    <h3 style="font-family:var(--display);font-size:20px;margin-bottom:20px">Leave a review</h3>
+
+    <div style="margin-bottom:16px">
+      <label style="display:block;font-size:13px;font-weight:500;margin-bottom:6px;opacity:.6">Route</label>
+      <select id="review-route" style="width:100%;padding:10px 14px;border-radius:8px;border:1.5px solid #d0c8b8;background:white;font-family:var(--body);font-size:15px">
+        <option value="red">🔴 Vondelpark Trail</option>
+        <option value="green">🟢 De Pijp Trail</option>
+        <option value="purple">🟣 Zuid–Diemen Trail</option>
+      </select>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <label style="display:block;font-size:13px;font-weight:500;margin-bottom:6px;opacity:.6">Name</label>
+      <input id="review-name" type="text" placeholder="Your name" style="width:100%;padding:10px 14px;border-radius:8px;border:1.5px solid #d0c8b8;font-family:var(--body);font-size:15px"/>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <label style="display:block;font-size:13px;font-weight:500;margin-bottom:6px;opacity:.6">Rating</label>
+      <div id="star-input" style="display:flex;gap:6px;font-size:28px;cursor:pointer">
+        <span data-val="1">☆</span><span data-val="2">☆</span><span data-val="3">☆</span><span data-val="4">☆</span><span data-val="5">☆</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px">
+      <label style="display:block;font-size:13px;font-weight:500;margin-bottom:6px;opacity:.6">Review</label>
+      <textarea id="review-text" rows="3" placeholder="Tell us about your experience..." style="width:100%;padding:10px 14px;border-radius:8px;border:1.5px solid #d0c8b8;font-family:var(--body);font-size:15px;resize:vertical"></textarea>
+    </div>
+
+    <button id="review-submit" style="background:var(--ink);color:var(--cream);border:none;padding:12px 28px;border-radius:8px;font-family:var(--display);font-size:16px;cursor:pointer">Submit review</button>
+    <span id="review-msg" style="margin-left:14px;font-size:13px;opacity:.6"></span>
+  </div>
+</section>
+
 <footer>
   <div class="nav-logo">Urban Trails Amsterdam</div>
   <p>A project for the city, by the city. Lowkey Legends © 2026</p>
@@ -314,11 +387,9 @@ const greenRoute = [
 // Route 3: Amsterdam Zuid → Duivendrecht → Diemen (purple)
 const purpleRoute = [
   [52.3430, 4.8950], // Amsterdam Zuid station
-  [52.3320, 4.9180], // Vrijheidslaan / Amstel richting oost, niet via Ouderkerkerdijk
-  [52.3175, 4.9330], // Utrechtseweg richting Duivendrecht
-  [52.3155, 4.9390], // fietspad parallel aan de weg, niet de autoweg
-  [52.3140, 4.9450], // fietspad Holterbergweg westzijde
-  [52.3170, 4.9480], // Duivendrecht, Burgemeester Stramanweg
+  [52.3320, 4.9020], // Rooseveltlaan / Churchilllaan
+  [52.3175, 4.9330], // Utrechtseweg brug
+  [52.3170, 4.9480], // Duivendrecht
   [52.3260, 4.9780], // Diemen
 ];
 
@@ -337,9 +408,46 @@ async function bikeRoute(latLngCoords) {
 // ── Map init ──────────────────────────────────────────────────────────────────
 const map = L.map('map', { zoomControl: true }).setView([52.352, 4.910], 12);
 
+// Original light basemap
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors',
   maxZoom: 19,
+}).addTo(map);
+
+// Mapillary coverage — all roads styled by intensity like mapillary.com
+const MAPILLARY_TOKEN = 'MLY|4381405525255083|bfde574a16fe37a9567a38c2d8bdc8b4';
+L.maplibreGL({
+  style: {
+    version: 8,
+    sources: {
+      mapillary: {
+        type: 'vector',
+        tiles: [`https://tiles.mapillary.com/maps/vtp/mly1_public/2/{z}/{x}/{y}?access_token=${MAPILLARY_TOKEN}`],
+        minzoom: 6,
+        maxzoom: 14,
+      }
+    },
+    layers: [
+      {
+        id: 'mapillary-coverage',
+        type: 'line',
+        source: 'mapillary',
+        'source-layer': 'sequence',
+        paint: {
+          'line-color': '#05CB63',
+          'line-width': [
+            'interpolate', ['linear'], ['zoom'],
+            6, 1,
+            12, 2,
+            16, 4
+          ],
+          'line-opacity': 0.7,
+        }
+      }
+    ]
+  },
+  attribution: '© Mapillary',
+  interactive: false,
 }).addTo(map);
 
 // ── Draw polylines snapped to bike roads ─────────────────────────────────────
@@ -354,6 +462,52 @@ async function drawRoutes() {
   L.polyline(purple, { color: 'purple', weight: 6, smoothFactor: 0, dashArray: '12 6' }).addTo(map);
 }
 drawRoutes();
+
+// ── Reviews ───────────────────────────────────────────────────────────────────
+const routeLabels = { red: '🔴 Vondelpark Trail', green: '🟢 De Pijp Trail', purple: '🟣 Zuid–Diemen Trail' };
+let selectedStars = 0;
+
+const stars = document.querySelectorAll('#star-input span');
+stars.forEach(s => {
+  s.addEventListener('mouseover', () => stars.forEach(x => x.textContent = x.dataset.val <= s.dataset.val ? '★' : '☆'));
+  s.addEventListener('mouseleave', () => stars.forEach(x => x.textContent = x.dataset.val <= selectedStars ? '★' : '☆'));
+  s.addEventListener('click', () => { selectedStars = +s.dataset.val; stars.forEach(x => x.textContent = x.dataset.val <= selectedStars ? '★' : '☆'); });
+});
+
+function renderReviews() {
+  const reviews = JSON.parse(localStorage.getItem('trail-reviews') || '[]');
+  const list = document.getElementById('reviews-list');
+  if (!reviews.length) { list.innerHTML = '<p style="text-align:center;opacity:.5;font-size:15px">No reviews yet — be the first!</p>'; return; }
+  list.innerHTML = reviews.map(r => `
+    <div style="background:white;border-radius:12px;padding:20px 24px;box-shadow:0 2px 12px rgba(0,0,0,.06)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <strong style="font-family:var(--display);font-size:17px">${r.name}</strong>
+        <span style="font-size:13px;opacity:.5">${r.route} · ${r.date}</span>
+      </div>
+      <div style="color:#f0a500;font-size:20px;margin-bottom:8px">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+      <p style="font-size:15px;line-height:1.6;opacity:.8">${r.text}</p>
+    </div>`).join('');
+}
+
+document.getElementById('review-submit').addEventListener('click', () => {
+  const name = document.getElementById('review-name').value.trim();
+  const text = document.getElementById('review-text').value.trim();
+  const route = routeLabels[document.getElementById('review-route').value];
+  const msg = document.getElementById('review-msg');
+  if (!name || !text || !selectedStars) { msg.textContent = 'Please fill in all fields and select a rating.'; return; }
+  const reviews = JSON.parse(localStorage.getItem('trail-reviews') || '[]');
+  reviews.unshift({ name, text, route, stars: selectedStars, date: new Date().toLocaleDateString('nl-NL') });
+  localStorage.setItem('trail-reviews', JSON.stringify(reviews));
+  document.getElementById('review-name').value = '';
+  document.getElementById('review-text').value = '';
+  selectedStars = 0;
+  stars.forEach(x => x.textContent = '☆');
+  msg.textContent = 'Thanks for your review!';
+  setTimeout(() => msg.textContent = '', 3000);
+  renderReviews();
+});
+
+renderReviews();
 
 // ── Scroll reveal ─────────────────────────────────────────────────────────────
 const observer = new IntersectionObserver(entries => {
