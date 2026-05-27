@@ -74,6 +74,8 @@ section{padding:100px 40px}
 .step p{font-size:15px;line-height:1.7;color:var(--ink);opacity:.7}
 .step-accent{width:40px;height:4px;margin-bottom:20px;border-radius:2px}
 
+
+
 #routes{padding:0;background:var(--cream)}
 .routes-header{padding:80px 80px 40px}
 .routes-header .section-title{max-width:100%}
@@ -106,6 +108,128 @@ section{padding:100px 40px}
 .legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--cream);opacity:.85;font-weight:500;letter-spacing:.5px}
 .legend-busy{width:28px;height:5px;background:var(--busy);border-radius:2px;flex-shrink:0}
 .legend-trail{width:28px;height:0;flex-shrink:0;border-top:4px dashed currentColor}
+
+.route-builder{
+  margin:0 80px 60px;
+  padding:48px;
+  background:var(--ink);
+  color:var(--cream);
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:60px;
+  position:relative;
+  overflow:hidden;
+}
+
+.route-builder::after{
+  content:'';
+  position:absolute;
+  right:-80px;
+  top:-80px;
+  width:240px;
+  height:240px;
+  border-radius:50%;
+  background:rgba(255,255,255,.04);
+}
+
+.route-builder-title{
+  font-family:var(--display);
+  font-size:clamp(38px,4vw,64px);
+  line-height:.95;
+  letter-spacing:-2px;
+  margin-bottom:20px;
+  color:var(--cream);
+}
+
+.route-builder-title em{
+  color:var(--lime);
+  font-style:italic;
+}
+
+.route-builder-text{
+  font-size:16px;
+  line-height:1.8;
+  max-width:460px;
+  opacity:.72;
+}
+
+.route-builder-controls{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:22px;
+  position:relative;
+  z-index:1;
+}
+
+.trail-field{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.trail-field label{
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  opacity:.45;
+}
+
+.trail-field select{
+  width:100%;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  color:var(--cream);
+  padding:16px 18px;
+  font-family:var(--body);
+  font-size:15px;
+  outline:none;
+  transition:border-color .2s,background .2s;
+  appearance:none;
+  cursor:pointer;
+}
+
+.trail-field select:hover{
+  background:rgba(255,255,255,.08);
+}
+
+.trail-field select:focus{
+  border-color:var(--lime);
+}
+
+.trail-generate-btn{
+  margin-top:10px;
+  background:var(--lime);
+  color:var(--ink);
+  border:none;
+  padding:16px 22px;
+  font-family:var(--body);
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:.5px;
+  cursor:pointer;
+  transition:transform .15s,opacity .2s;
+}
+
+.trail-generate-btn:hover{
+  transform:translateY(-2px);
+  opacity:.92;
+}
+
+@media(max-width:900px){
+
+  .route-builder{
+    margin:0 24px 40px;
+    padding:32px 24px;
+    grid-template-columns:1fr;
+    gap:40px;
+  }
+
+  .route-builder-title{
+    font-size:42px;
+  }
+
+}
 
 #tod{background:var(--coral);padding:100px 80px;display:grid;grid-template-columns:1fr 400px;gap:80px;align-items:center;overflow:hidden}
 #tod .section-eyebrow{color:var(--cream);opacity:.8}
@@ -187,6 +311,7 @@ footer p{font-size:12px;color:var(--cream);opacity:.35}
   .steps,.seasons-grid{grid-template-columns:1fr}
   .map-legend{padding:20px 24px;gap:16px}
 }
+
 </style>
 </head>
 <body>
@@ -211,6 +336,7 @@ footer p{font-size:12px;color:var(--cream);opacity:.35}
   <h1 class="hero-title">Take the<br/><em>other</em> road.</h1>
   <p class="hero-subtitle">Spray-painted routes through Amsterdam's hidden streets. Calmer, stranger, more beautiful — cycling the way it should feel.</p>
   <div class="hero-cta">
+    
     <a href="#routes" class="btn-primary">Explore routes</a>
     <a href="#what" class="btn-ghost">Learn more ↓</a>
   </div>
@@ -264,6 +390,42 @@ footer p{font-size:12px;color:var(--cream);opacity:.35}
     <h2 class="section-title">Current <em>routes</em></h2>
     <p style="margin-top:16px;font-size:15px;opacity:.6;max-width:520px;line-height:1.6">Three coloured trails through Amsterdam's quieter streets — from Vondelpark to Oosterpark, through De Pijp, and south to Zuidoost.</p>
   </div>
+  <div class="route-builder reveal">
+  <div class="route-builder-copy">
+    <div class="section-eyebrow">Make your own trail</div>
+    <h3 class="route-builder-title">
+      Let the city<br><em>choose for you.</em>
+    </h3>
+    <p class="route-builder-text">
+      Pick a mood, choose a ride length, and generate a wandering through Amsterdam’s quieter streets.
+    </p>
+  </div>
+
+  <div class="route-builder-controls">
+    <div class="trail-field">
+      <label>Trail mood</label>
+      <select id="route-theme">
+        <option value="quiet">Quiet streets</option>
+        <option value="art">Street art</option>
+        <option value="coffee">Coffee crawl</option>
+        <option value="canals">Canal wandering</option>
+      </select>
+    </div>
+
+    <div class="trail-field">
+      <label>Ride length</label>
+      <select id="route-distance">
+        <option value="15">15 minutes</option>
+        <option value="30">30 minutes</option>
+        <option value="60">1 hour</option>
+      </select>
+    </div>
+
+    <button id="generate-route-btn" class="trail-generate-btn">
+      Paint a trail
+    </button>
+  </div>
+</div>
   <div style="position:relative">
     <div id="map"></div>
   </div>
@@ -369,6 +531,8 @@ footer p{font-size:12px;color:var(--cream);opacity:.35}
 
 <script>
 // ── Coordinates [lat, lng] for Leaflet ───────────────────────────────────────
+
+
 
 // Route 1: Vondelpark → Leidseplein (red)
 const redRoute = [
@@ -516,6 +680,60 @@ const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const generatedRoutes = {
+  quiet: [
+    [52.364, 4.876],
+    [52.361, 4.882],
+    [52.358, 4.891]
+  ],
+
+  art: [
+    [52.370, 4.861],
+    [52.372, 4.873],
+    [52.375, 4.884]
+  ],
+
+  coffee: [
+    [52.356, 4.889],
+    [52.359, 4.901],
+    [52.363, 4.914]
+  ],
+
+  canals: [
+    [52.368, 4.894],
+    [52.371, 4.901],
+    [52.374, 4.909]
+  ]
+};
+
+document
+  .getElementById('generate-route-btn')
+  .addEventListener('click', () => {
+
+    const theme =
+      document.getElementById('route-theme').value;
+
+    const coords = generatedRoutes[theme];
+
+    if(window.generatedTrail){
+      map.removeLayer(window.generatedTrail);
+    }
+
+    window.generatedTrail = L.polyline(coords,{
+      color:'#f0a500',
+      weight:6,
+      opacity:.95,
+      dashArray:'14 18',
+      lineCap:'round'
+    }).addTo(map);
+
+    map.fitBounds(window.generatedTrail.getBounds(),{
+      padding:[60,60]
+    });
+
+});
+
 </script>
 </body>
 </html>
