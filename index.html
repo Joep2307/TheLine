@@ -312,6 +312,356 @@ footer p{font-size:12px;color:var(--cream);opacity:.35}
   .map-legend{padding:20px 24px;gap:16px}
 }
 
+
+/* Added from first code: Reviews + Suggest a route */
+/* ── REVIEWS ── */
+#reviews{
+  background:var(--ink);
+  padding:100px 80px;
+  overflow:hidden;
+  position:relative;
+}
+#reviews .section-eyebrow{color:var(--lime)}
+#reviews .section-eyebrow::before{background:var(--lime)}
+#reviews .section-title{color:var(--cream);margin-bottom:60px}
+#reviews .section-title em{color:var(--coral)}
+
+.reviews-track-wrap{
+  overflow:hidden;
+  position:relative;
+  /* fade edges */
+  mask-image:linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image:linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.reviews-track{
+  display:flex;
+  gap:20px;
+  width:max-content;
+  animation:scroll-left 38s linear infinite;
+}
+.reviews-track:hover{animation-play-state:paused}
+
+@keyframes scroll-left{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+
+.review-card{
+  flex-shrink:0;
+  width:320px;
+  background:var(--surface, #1e1a12);
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:3px;
+  padding:28px 28px 24px;
+  position:relative;
+  transition:background .2s,border-color .2s;
+}
+.review-card:hover{
+  background:rgba(255,255,255,.09);
+  border-color:rgba(255,255,255,.16);
+}
+
+.review-quote-mark{
+  font-family:var(--display);
+  font-size:64px;
+  line-height:1;
+  color:var(--coral);
+  opacity:.5;
+  position:absolute;
+  top:12px;right:20px;
+  pointer-events:none;
+}
+
+.review-stars{
+  display:flex;gap:3px;margin-bottom:14px;
+}
+.star{color:var(--amber);font-size:14px}
+
+.review-text{
+  font-size:15px;line-height:1.7;
+  color:var(--cream);opacity:.82;
+  margin-bottom:20px;
+}
+
+.review-author{
+  display:flex;align-items:center;gap:12px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.review-avatar{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-weight:900;font-size:14px;
+  color:#fff;flex-shrink:0;
+}
+.review-name{font-size:13px;font-weight:500;color:var(--cream)}
+.review-meta{font-size:11px;color:var(--cream);opacity:.4;margin-top:2px;letter-spacing:.3px}
+
+.review-trail-tag{
+  display:inline-block;
+  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:2px 8px;border-radius:2px;
+  margin-bottom:12px;
+  font-weight:500;
+}
+
+/* ── SUGGEST A ROUTE ── */
+#suggest{
+  background:var(--sand);
+  padding:100px 80px;
+}
+#suggest .section-eyebrow{color:var(--cobalt)}
+#suggest .section-eyebrow::before{background:var(--cobalt)}
+#suggest .section-title em{color:var(--coral)}
+
+.suggest-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+  margin-top:48px;
+  align-items:start;
+}
+
+/* Map picker */
+.suggest-map-wrap{
+  position:relative;
+  border-radius:3px;
+  overflow:hidden;
+  border:2px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+}
+#suggest-map{
+  width:100%;
+  height:420px;
+}
+.suggest-map-hint{
+  position:absolute;
+  bottom:12px;left:50%;transform:translateX(-50%);
+  background:rgba(26,18,8,.82);
+  color:var(--cream);
+  font-size:11px;letter-spacing:1px;
+  padding:6px 14px;border-radius:2px;
+  backdrop-filter:blur(4px);
+  pointer-events:none;
+  white-space:nowrap;
+  transition:opacity .3s;
+}
+.suggest-map-hint.hidden{opacity:0}
+
+.waypoint-list{
+  margin-top:10px;
+  display:flex;flex-wrap:wrap;gap:6px;
+  min-height:24px;
+}
+.waypoint-chip{
+  font-size:11px;
+  background:var(--ink);color:var(--cream);
+  padding:3px 10px 3px 8px;
+  border-radius:2px;
+  display:flex;align-items:center;gap:6px;
+  font-family:var(--body);
+}
+.waypoint-chip button{
+  background:none;border:none;color:var(--coral);
+  cursor:pointer;font-size:13px;line-height:1;padding:0;
+}
+.clear-pts{
+  font-size:11px;color:var(--cobalt);cursor:pointer;
+  background:none;border:none;font-family:var(--body);
+  text-decoration:underline;margin-top:6px;
+  display:none;
+}
+.clear-pts.visible{display:inline}
+
+/* Form */
+.suggest-form{
+  display:flex;flex-direction:column;gap:20px;
+}
+.form-group{
+  display:flex;flex-direction:column;gap:6px;
+}
+.form-label{
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--ink);opacity:.55;
+}
+.form-input, .form-textarea, .form-select{
+  background:var(--cream);
+  border:1.5px solid rgba(26,18,8,.2);
+  border-radius:2px;
+  padding:12px 14px;
+  font-family:var(--body);
+  font-size:15px;
+  color:var(--ink);
+  outline:none;
+  transition:border-color .2s,box-shadow .2s;
+  width:100%;
+}
+.form-input:focus,.form-textarea:focus,.form-select:focus{
+  border-color:var(--cobalt);
+  box-shadow:0 0 0 3px rgba(41,85,200,.12);
+}
+.form-textarea{resize:vertical;min-height:90px}
+
+.color-picker-row{
+  display:flex;gap:10px;flex-wrap:wrap;
+}
+.color-opt{
+  width:32px;height:32px;border-radius:50%;
+  cursor:pointer;border:3px solid transparent;
+  transition:transform .15s, border-color .15s;
+  position:relative;
+}
+.color-opt:hover{transform:scale(1.15)}
+.color-opt.selected{border-color:var(--ink);transform:scale(1.15)}
+
+.char-count{font-size:11px;color:var(--ink);opacity:.4;text-align:right;margin-top:-14px}
+
+.btn-submit{
+  background:var(--ink);color:var(--cream);
+  border:none;border-radius:2px;
+  padding:14px 28px;
+  font-family:var(--body);font-size:14px;font-weight:500;
+  letter-spacing:.5px;cursor:pointer;
+  transition:background .2s,transform .15s;
+  display:flex;align-items:center;gap:8px;
+  width:fit-content;
+}
+.btn-submit:hover{background:var(--cobalt);transform:translateY(-2px)}
+.btn-submit:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+.form-notice{
+  font-size:12px;color:var(--ink);opacity:.5;line-height:1.5;
+}
+
+/* Submitted routes gallery */
+.submitted-header{
+  display:flex;align-items:baseline;gap:16px;
+  margin-top:72px;margin-bottom:28px;
+}
+.submitted-header h3{
+  font-family:var(--display);
+  font-size:32px;font-weight:900;
+  letter-spacing:-1px;color:var(--ink);
+}
+.submitted-count{
+  font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--ink);opacity:.4;
+}
+.submitted-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:16px;
+}
+.submitted-card{
+  background:var(--cream);
+  border:1.5px solid rgba(26,18,8,.12);
+  border-radius:3px;
+  padding:20px;
+  position:relative;
+  transition:transform .2s,box-shadow .2s;
+  animation:cardIn .4s ease forwards;
+}
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.submitted-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(26,18,8,.1)}
+.submitted-card-color{
+  width:100%;height:4px;
+  border-radius:2px;
+  margin-bottom:14px;
+}
+.submitted-card-name{
+  font-family:var(--display);font-size:20px;font-weight:700;
+  color:var(--ink);margin-bottom:4px;
+}
+.submitted-card-neighborhood{
+  font-size:12px;color:var(--ink);opacity:.5;
+  margin-bottom:10px;letter-spacing:.3px;
+}
+.submitted-card-desc{
+  font-size:14px;line-height:1.6;color:var(--ink);opacity:.75;
+  margin-bottom:14px;
+}
+.submitted-card-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;
+  border-top:1px solid rgba(26,18,8,.08);
+  font-size:11px;color:var(--ink);opacity:.4;
+}
+.submitted-card-pts{
+  display:inline-flex;align-items:center;gap:4px;
+}
+.vote-btn{
+  background:none;border:1.5px solid rgba(26,18,8,.15);
+  border-radius:2px;padding:4px 10px;
+  font-size:12px;font-family:var(--body);
+  cursor:pointer;color:var(--ink);
+  display:flex;align-items:center;gap:5px;
+  transition:all .15s;
+}
+.vote-btn:hover{border-color:var(--cobalt);color:var(--cobalt)}
+.vote-btn.voted{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.view-map-btn{
+  background:var(--ink);
+  color:var(--cream);
+  border:none;
+  border-radius:2px;
+  padding:6px 10px;
+  font-size:11px;
+  font-family:var(--body);
+  cursor:pointer;
+  transition:background .15s,transform .15s;
+}
+.view-map-btn:hover{background:var(--coral);transform:translateY(-1px)}
+.submitted-card.active-route{
+  border-color:var(--cobalt);
+  box-shadow:0 8px 32px rgba(41,85,200,.18);
+}
+
+.empty-state{
+  grid-column:1/-1;
+  text-align:center;
+  padding:48px 24px;
+  border:2px dashed rgba(26,18,8,.15);
+  border-radius:3px;
+  color:var(--ink);opacity:.4;
+  font-size:15px;line-height:1.6;
+}
+.empty-state span{
+  display:block;font-size:32px;margin-bottom:8px;
+}
+
+/* success toast */
+.toast{
+  position:fixed;bottom:32px;right:32px;
+  background:var(--ink);color:var(--cream);
+  padding:14px 20px;border-radius:3px;
+  font-size:14px;
+  display:flex;align-items:center;gap:10px;
+  z-index:200;
+  transform:translateY(80px);opacity:0;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .35s;
+  pointer-events:none;
+  box-shadow:0 8px 40px rgba(0,0,0,.25);
+}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-icon{color:var(--lime);font-size:18px}
+
+@media(max-width:900px){
+  nav{padding:16px 20px}
+  #hero{padding:0 20px 50px}
+  #what,#how,#routes .routes-header,#tod,#seasonal,#reviews,#suggest,#cta,footer{padding:60px 24px}
+  #what,#tod{grid-template-columns:1fr}
+  .tod-illustration{display:none}
+  .steps,.seasons-grid{grid-template-columns:1fr}
+  .map-legend{padding:20px 24px;gap:16px}
+  .review-card{width:280px}
+  .suggest-layout{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -322,6 +672,8 @@ footer p{font-size:12px;color:var(--cream);opacity:.35}
     <li><a href="#what">Concept</a></li>
     <li><a href="#routes">Routes</a></li>
     <li><a href="#tod">Tod</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#suggest">Suggest</a></li>
     <li><a href="#cta">Join</a></li>
   </ul>
 </nav>
@@ -474,6 +826,248 @@ footer p{font-size:12px;color:var(--cream);opacity:.35}
   </div>
 </section>
 
+<section id="reviews">
+  <div class="reveal">
+    <div class="section-eyebrow">From the city</div>
+    <h2 class="section-title">What cyclists<br/><em>say</em></h2>
+  </div>
+
+  <div class="reviews-track-wrap reveal" style="transition-delay:.15s">
+    <div class="reviews-track" id="reviews-track">
+
+      <!-- Card 1 -->
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <span class="review-trail-tag" style="background:rgba(232,93,58,.15);color:#e85d3a">Jordaan Trail</span>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="review-text">I've lived in Amsterdam for six years and this route took me down streets I'd never seen. Felt like a completely different city. I was late to work and I don't even regret it.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#e85d3a">L</div>
+          <div>
+            <div class="review-name">Lena V.</div>
+            <div class="review-meta">Jordaan · cyclist since forever</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <span class="review-trail-tag" style="background:rgba(184,224,74,.12);color:#b8e04a">Centre Trail</span>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="review-text">The green line through De Pijp is genius. Quieter streets, nice little squares I didn't know existed. My commute actually feels like something now instead of just stress.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#8ab035">M</div>
+          <div>
+            <div class="review-name">Martijn de B.</div>
+            <div class="review-meta">De Pijp · daily commuter</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <span class="review-trail-tag" style="background:rgba(155,89,232,.12);color:#9b59e8">East Trail</span>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="review-text">Followed the purple line on a Sunday morning. Ended up at Flevopark, had a coffee by the water, watched herons for 20 minutes. Can't remember the last time I did something like that.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#9b59e8">S</div>
+          <div>
+            <div class="review-name">Sara O.</div>
+            <div class="review-meta">Oost · weekend rider</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <span class="review-trail-tag" style="background:rgba(232,93,58,.15);color:#e85d3a">Jordaan Trail</span>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="opacity:.3">★</span></div>
+        <p class="review-text">My kids loved following the orange line. They kept saying "where does it go?" every few meters. Best bike ride we've had in years. The route through the small streets was perfect.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#c8440a">T</div>
+          <div>
+            <div class="review-name">Thomas R.</div>
+            <div class="review-meta">Oud-West · father of two</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <span class="review-trail-tag" style="background:rgba(184,224,74,.12);color:#b8e04a">Centre Trail</span>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="review-text">As a tourist I was tired of cycling with hundreds of people on the same paths. This trail made Amsterdam feel actually local. Came back three days in a row to try different ones.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#2955c8">A</div>
+          <div>
+            <div class="review-name">Anya K.</div>
+            <div class="review-meta">Berlin · visiting for a week</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <span class="review-trail-tag" style="background:rgba(155,89,232,.12);color:#9b59e8">East Trail</span>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="review-text">The spray paint on the ground just works. It doesn't feel like infrastructure, it feels like an invitation. I stopped three times just to look at architecture I've cycled past blindly for years.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#f0a500;color:#1a1208">R</div>
+          <div>
+            <div class="review-name">Rosa M.</div>
+            <div class="review-meta">Watergraafsmeer · urban designer</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Duplicates for seamless loop -->
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <span class="review-trail-tag" style="background:rgba(232,93,58,.15);color:#e85d3a">Jordaan Trail</span>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="review-text">I've lived in Amsterdam for six years and this route took me down streets I'd never seen. Felt like a completely different city. I was late to work and I don't even regret it.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#e85d3a">L</div>
+          <div><div class="review-name">Lena V.</div><div class="review-meta">Jordaan · cyclist since forever</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <span class="review-trail-tag" style="background:rgba(184,224,74,.12);color:#b8e04a">Centre Trail</span>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="review-text">The green line through De Pijp is genius. Quieter streets, nice little squares I didn't know existed. My commute actually feels like something now instead of just stress.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#8ab035">M</div>
+          <div><div class="review-name">Martijn de B.</div><div class="review-meta">De Pijp · daily commuter</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <span class="review-trail-tag" style="background:rgba(155,89,232,.12);color:#9b59e8">East Trail</span>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="review-text">Followed the purple line on a Sunday morning. Ended up at Flevopark, had a coffee by the water, watched herons for 20 minutes. Can't remember the last time I did something like that.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#9b59e8">S</div>
+          <div><div class="review-name">Sara O.</div><div class="review-meta">Oost · weekend rider</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <span class="review-trail-tag" style="background:rgba(232,93,58,.15);color:#e85d3a">Jordaan Trail</span>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="opacity:.3">★</span></div>
+        <p class="review-text">My kids loved following the orange line. They kept saying "where does it go?" every few meters. Best bike ride we've had in years.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#c8440a">T</div>
+          <div><div class="review-name">Thomas R.</div><div class="review-meta">Oud-West · father of two</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <span class="review-trail-tag" style="background:rgba(184,224,74,.12);color:#b8e40a">Centre Trail</span>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="review-text">As a tourist I was tired of cycling with hundreds of people on the same paths. This trail made Amsterdam feel actually local. Came back three days in a row.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#2955c8">A</div>
+          <div><div class="review-name">Anya K.</div><div class="review-meta">Berlin · visiting for a week</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <span class="review-trail-tag" style="background:rgba(155,89,232,.12);color:#9b59e8">East Trail</span>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="review-text">The spray paint on the ground just works. It doesn't feel like infrastructure, it feels like an invitation. I stopped three times just to look at architecture I've cycled past blindly for years.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#f0a500;color:#1a1208">R</div>
+          <div><div class="review-name">Rosa M.</div><div class="review-meta">Watergraafsmeer · urban designer</div></div>
+        </div>
+      </div>
+
+    </div><!-- /track -->
+  </div><!-- /wrap -->
+</section>
+
+
+<section id="suggest">
+  <div class="reveal">
+    <div class="section-eyebrow">Community</div>
+    <h2 class="section-title">Suggest a<br/><em>new route</em></h2>
+    <p class="body-text" style="margin-top:16px">Know a hidden street, a quiet canal path, or a neighbourhood that deserves more cyclists? Drop your waypoints on the map and tell us about it. Submitted routes stay visible on this map.</p>
+  </div>
+
+  <div class="suggest-layout reveal" style="transition-delay:.15s">
+    <!-- Map picker -->
+    <div>
+      <div class="suggest-map-wrap">
+        <div id="suggest-map"></div>
+        <div class="suggest-map-hint" id="suggest-hint">Click on the map to add waypoints</div>
+      </div>
+      <div class="waypoint-list" id="waypoint-list"></div>
+      <button class="clear-pts" id="clear-pts-btn">Clear all waypoints</button>
+    </div>
+
+    <!-- Form -->
+    <div class="suggest-form" id="suggest-form">
+      <div class="form-group">
+        <label class="form-label">Route name</label>
+        <input class="form-input" id="route-name" type="text" placeholder="e.g. Plantage Morning Loop" maxlength="48"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Neighbourhood / area</label>
+        <input class="form-input" id="route-hood" type="text" placeholder="e.g. Oost, Jordaan, De Pijp…" maxlength="40"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Why is this route special?</label>
+        <textarea class="form-textarea" id="route-desc" placeholder="What will people discover along the way?" maxlength="180"></textarea>
+        <div class="char-count"><span id="char-left">180</span> characters left</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Pick a trail colour</label>
+        <div class="color-picker-row" id="color-picker">
+          <div class="color-opt selected" data-color="#e85d3a" style="background:#e85d3a" title="Coral"></div>
+          <div class="color-opt" data-color="#b8e04a" style="background:#b8e04a" title="Lime"></div>
+          <div class="color-opt" data-color="#9b59e8" style="background:#9b59e8" title="Violet"></div>
+          <div class="color-opt" data-color="#f0a500" style="background:#f0a500" title="Amber"></div>
+          <div class="color-opt" data-color="#2955c8" style="background:#2955c8" title="Cobalt"></div>
+          <div class="color-opt" data-color="#00b894" style="background:#00b894" title="Teal"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your name (optional)</label>
+        <input class="form-input" id="route-author" type="text" placeholder="Anonymous cyclist" maxlength="32"/>
+      </div>
+      <p class="form-notice">Routes are suggestions — the Urban Trails team reviews each one before it goes on the map. We'll credit you if your route gets painted!</p>
+      <button class="btn-submit" id="submit-route-btn" disabled>
+        <span>Submit route</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Submitted routes gallery -->
+  <div class="submitted-header">
+    <h3>Community routes</h3>
+    <span class="submitted-count" id="submitted-count">0 submitted</span>
+  </div>
+  <div class="submitted-grid" id="submitted-grid">
+    <div class="empty-state">
+      <span>🗺️</span>
+      No routes yet — be the first to suggest one!
+    </div>
+  </div>
+</section>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✓</span>
+  <span id="toast-msg">Route submitted!</span>
+</div>
+
+
 <section id="cta">
   <div class="section-eyebrow reveal" style="justify-content:center">Get involved</div>
   <h2 class="section-title reveal">Ready to get<br/><em>lost?</em></h2>
@@ -481,46 +1075,6 @@ footer p{font-size:12px;color:var(--cream);opacity:.35}
   <div class="cta-btns reveal">
     <a href="#routes" class="btn-lime">See current routes</a>
     <a href="mailto:hello@urbantrails.nl" class="btn-outline">Get in touch</a>
-  </div>
-</section>
-
-<section id="reviews">
-  <div class="section-eyebrow reveal">Community</div>
-  <h2 class="section-title reveal">What people<br/><em>are saying</em></h2>
-
-  <div id="reviews-list" style="display:flex;flex-direction:column;gap:16px;max-width:640px;margin:0 auto 40px"></div>
-
-  <div class="reveal" style="max-width:640px;margin:0 auto;background:var(--sand);border-radius:16px;padding:28px 28px 24px">
-    <h3 style="font-family:var(--display);font-size:20px;margin-bottom:20px">Leave a review</h3>
-
-    <div style="margin-bottom:16px">
-      <label style="display:block;font-size:13px;font-weight:500;margin-bottom:6px;opacity:.6">Route</label>
-      <select id="review-route" style="width:100%;padding:10px 14px;border-radius:8px;border:1.5px solid #d0c8b8;background:white;font-family:var(--body);font-size:15px">
-        <option value="red">🔴 Vondelpark Trail</option>
-        <option value="green">🟢 De Pijp Trail</option>
-        <option value="purple">🟣 Zuid–Diemen Trail</option>
-      </select>
-    </div>
-
-    <div style="margin-bottom:16px">
-      <label style="display:block;font-size:13px;font-weight:500;margin-bottom:6px;opacity:.6">Name</label>
-      <input id="review-name" type="text" placeholder="Your name" style="width:100%;padding:10px 14px;border-radius:8px;border:1.5px solid #d0c8b8;font-family:var(--body);font-size:15px"/>
-    </div>
-
-    <div style="margin-bottom:16px">
-      <label style="display:block;font-size:13px;font-weight:500;margin-bottom:6px;opacity:.6">Rating</label>
-      <div id="star-input" style="display:flex;gap:6px;font-size:28px;cursor:pointer">
-        <span data-val="1">☆</span><span data-val="2">☆</span><span data-val="3">☆</span><span data-val="4">☆</span><span data-val="5">☆</span>
-      </div>
-    </div>
-
-    <div style="margin-bottom:20px">
-      <label style="display:block;font-size:13px;font-weight:500;margin-bottom:6px;opacity:.6">Review</label>
-      <textarea id="review-text" rows="3" placeholder="Tell us about your experience..." style="width:100%;padding:10px 14px;border-radius:8px;border:1.5px solid #d0c8b8;font-family:var(--body);font-size:15px;resize:vertical"></textarea>
-    </div>
-
-    <button id="review-submit" style="background:var(--ink);color:var(--cream);border:none;padding:12px 28px;border-radius:8px;font-family:var(--display);font-size:16px;cursor:pointer">Submit review</button>
-    <span id="review-msg" style="margin-left:14px;font-size:13px;opacity:.6"></span>
   </div>
 </section>
 
@@ -629,52 +1183,6 @@ async function drawRoutes() {
 }
 drawRoutes();
 
-// ── Reviews ───────────────────────────────────────────────────────────────────
-const routeLabels = { red: '🔴 Vondelpark Trail', green: '🟢 De Pijp Trail', purple: '🟣 Zuid–Diemen Trail' };
-let selectedStars = 0;
-
-const stars = document.querySelectorAll('#star-input span');
-stars.forEach(s => {
-  s.addEventListener('mouseover', () => stars.forEach(x => x.textContent = x.dataset.val <= s.dataset.val ? '★' : '☆'));
-  s.addEventListener('mouseleave', () => stars.forEach(x => x.textContent = x.dataset.val <= selectedStars ? '★' : '☆'));
-  s.addEventListener('click', () => { selectedStars = +s.dataset.val; stars.forEach(x => x.textContent = x.dataset.val <= selectedStars ? '★' : '☆'); });
-});
-
-function renderReviews() {
-  const reviews = JSON.parse(localStorage.getItem('trail-reviews') || '[]');
-  const list = document.getElementById('reviews-list');
-  if (!reviews.length) { list.innerHTML = '<p style="text-align:center;opacity:.5;font-size:15px">No reviews yet — be the first!</p>'; return; }
-  list.innerHTML = reviews.map(r => `
-    <div style="background:white;border-radius:12px;padding:20px 24px;box-shadow:0 2px 12px rgba(0,0,0,.06)">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <strong style="font-family:var(--display);font-size:17px">${r.name}</strong>
-        <span style="font-size:13px;opacity:.5">${r.route} · ${r.date}</span>
-      </div>
-      <div style="color:#f0a500;font-size:20px;margin-bottom:8px">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
-      <p style="font-size:15px;line-height:1.6;opacity:.8">${r.text}</p>
-    </div>`).join('');
-}
-
-document.getElementById('review-submit').addEventListener('click', () => {
-  const name = document.getElementById('review-name').value.trim();
-  const text = document.getElementById('review-text').value.trim();
-  const route = routeLabels[document.getElementById('review-route').value];
-  const msg = document.getElementById('review-msg');
-  if (!name || !text || !selectedStars) { msg.textContent = 'Please fill in all fields and select a rating.'; return; }
-  const reviews = JSON.parse(localStorage.getItem('trail-reviews') || '[]');
-  reviews.unshift({ name, text, route, stars: selectedStars, date: new Date().toLocaleDateString('nl-NL') });
-  localStorage.setItem('trail-reviews', JSON.stringify(reviews));
-  document.getElementById('review-name').value = '';
-  document.getElementById('review-text').value = '';
-  selectedStars = 0;
-  stars.forEach(x => x.textContent = '☆');
-  msg.textContent = 'Thanks for your review!';
-  setTimeout(() => msg.textContent = '', 3000);
-  renderReviews();
-});
-
-renderReviews();
-
 // ── Scroll reveal ─────────────────────────────────────────────────────────────
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
@@ -734,6 +1242,329 @@ document
 
 });
 
+// ── SUGGEST-A-ROUTE ───────────────────────────────────────────────────────────
+const suggestMap = new maplibregl.Map({
+  container: 'suggest-map',
+  style: {
+    version: 8,
+    sources: { osm: { type:'raster', tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], tileSize:256, attribution:'© OpenStreetMap' }},
+    layers: [{ id:'osm', type:'raster', source:'osm' }]
+  },
+  center: [4.895, 52.370],
+  zoom: 12.5,
+  attributionControl: false,
+});
+
+suggestMap.on('load', () => {
+  suggestMap.setPaintProperty('osm','raster-brightness-max', 0.88);
+  suggestMap.setPaintProperty('osm','raster-saturation', -0.2);
+
+  // preview line source
+  suggestMap.addSource('preview-line', {
+    type: 'geojson',
+    data: { type:'Feature', geometry:{ type:'LineString', coordinates:[] }}
+  });
+  suggestMap.addLayer({ id:'preview-glow', type:'line', source:'preview-line',
+    paint:{ 'line-color': selectedColor, 'line-width':18, 'line-opacity':0.15, 'line-blur':12 }});
+  suggestMap.addLayer({ id:'preview-line', type:'line', source:'preview-line',
+    paint:{ 'line-color': selectedColor, 'line-width':4, 'line-opacity':0.9, 'line-dasharray':[2,1.4] }});
+});
+
+// State
+let waypoints = [];
+let wpMarkers = [];
+let selectedColor = '#e85d3a';
+let submittedRoutes = [];
+
+// Click to add waypoints
+suggestMap.on('click', e => {
+  const { lng, lat } = e.lngLat;
+  waypoints.push([lng, lat]);
+  addWaypointMarker(lng, lat, waypoints.length - 1);
+  updatePreviewLine();
+  updateWaypointList();
+  updateSubmitBtn();
+  if (waypoints.length === 1) {
+    document.getElementById('suggest-hint').classList.add('hidden');
+  }
+});
+
+function addWaypointMarker(lng, lat, idx) {
+  const el = document.createElement('div');
+  el.style.cssText = `
+    width:18px;height:18px;border-radius:50%;
+    background:${selectedColor};border:2.5px solid #fff;
+    box-shadow:0 0 8px ${selectedColor}88;
+    display:flex;align-items:center;justify-content:center;
+    font-size:9px;font-weight:700;color:#fff;
+    font-family:'DM Sans',sans-serif;cursor:pointer;
+  `;
+  el.textContent = idx + 1;
+  const m = new maplibregl.Marker({ element: el }).setLngLat([lng, lat]).addTo(suggestMap);
+  wpMarkers.push(m);
+}
+
+function updatePreviewLine() {
+  if (!suggestMap.getSource('preview-line')) return;
+  suggestMap.getSource('preview-line').setData({
+    type: 'Feature',
+    geometry: { type: 'LineString', coordinates: waypoints }
+  });
+  // update preview line color
+  try {
+    suggestMap.setPaintProperty('preview-glow','line-color', selectedColor);
+    suggestMap.setPaintProperty('preview-line','line-color', selectedColor);
+  } catch(e){}
+}
+
+function updateWaypointList() {
+  const list = document.getElementById('waypoint-list');
+  const clearBtn = document.getElementById('clear-pts-btn');
+  list.innerHTML = waypoints.map((wp, i) =>
+    `<div class="waypoint-chip">
+       <span>📍 ${i+1}</span>
+       <span style="opacity:.55">${wp[1].toFixed(4)}, ${wp[0].toFixed(4)}</span>
+       <button onclick="removeWaypoint(${i})" title="Remove">×</button>
+     </div>`
+  ).join('');
+  clearBtn.classList.toggle('visible', waypoints.length > 0);
+}
+
+window.removeWaypoint = function(idx) {
+  waypoints.splice(idx, 1);
+  wpMarkers.forEach(m => m.remove());
+  wpMarkers = [];
+  waypoints.forEach((wp, i) => addWaypointMarker(wp[0], wp[1], i));
+  updatePreviewLine();
+  updateWaypointList();
+  updateSubmitBtn();
+  if (waypoints.length === 0) {
+    document.getElementById('suggest-hint').classList.remove('hidden');
+  }
+};
+
+document.getElementById('clear-pts-btn').addEventListener('click', () => {
+  waypoints = [];
+  wpMarkers.forEach(m => m.remove());
+  wpMarkers = [];
+  updatePreviewLine();
+  updateWaypointList();
+  updateSubmitBtn();
+  document.getElementById('suggest-hint').classList.remove('hidden');
+});
+
+// Color picker
+document.querySelectorAll('.color-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.color-opt').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    selectedColor = opt.dataset.color;
+    // re-tint existing markers
+    wpMarkers.forEach((m, i) => {
+      const el = m.getElement();
+      el.style.background = selectedColor;
+      el.style.boxShadow = `0 0 8px ${selectedColor}88`;
+    });
+    updatePreviewLine();
+  });
+});
+
+// Char counter
+const descEl = document.getElementById('route-desc');
+descEl.addEventListener('input', () => {
+  document.getElementById('char-left').textContent = 180 - descEl.value.length;
+});
+
+// Enable submit when name + 2+ waypoints
+function updateSubmitBtn() {
+  const name = document.getElementById('route-name').value.trim();
+  document.getElementById('submit-route-btn').disabled = !(name.length > 1 && waypoints.length >= 2);
+}
+document.getElementById('route-name').addEventListener('input', updateSubmitBtn);
+
+// Submit
+document.getElementById('submit-route-btn').addEventListener('click', () => {
+  const name = document.getElementById('route-name').value.trim();
+  const hood = document.getElementById('route-hood').value.trim();
+  const desc = document.getElementById('route-desc').value.trim();
+  const author = document.getElementById('route-author').value.trim() || 'Anonymous cyclist';
+
+  const route = {
+    id: Date.now(),
+    name, hood, desc, author,
+    color: selectedColor,
+    waypoints: [...waypoints],
+    votes: 0,
+    voted: false,
+    date: new Date().toLocaleDateString('en-NL', { day:'numeric', month:'short', year:'numeric' }),
+    pts: waypoints.length,
+  };
+
+  submittedRoutes.unshift(route);
+  drawSubmittedRouteOnMap(route);
+  renderSubmitted();
+  focusSubmittedRoute(route.id);
+  resetForm();
+  showToast(`"${name}" submitted — thanks!`);
+});
+
+function renderSubmitted() {
+  const grid = document.getElementById('submitted-grid');
+  document.getElementById('submitted-count').textContent =
+    `${submittedRoutes.length} submitted`;
+
+  if (submittedRoutes.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><span>🗺️</span>No routes yet — be the first to suggest one!</div>`;
+    return;
+  }
+
+  grid.innerHTML = submittedRoutes.map(r => `
+    <div class="submitted-card">
+      <div class="submitted-card-color" style="background:${r.color}"></div>
+      <div class="submitted-card-name">${escHtml(r.name)}</div>
+      <div class="submitted-card-neighborhood">${escHtml(r.hood || 'Amsterdam')}</div>
+      ${r.desc ? `<div class="submitted-card-desc">${escHtml(r.desc)}</div>` : ''}
+      <div class="submitted-card-meta">
+        <span class="submitted-card-pts">📍 ${r.pts} waypoints · ${r.date}</span>
+        <button class="vote-btn ${r.voted?'voted':''}" onclick="voteRoute(${r.id})">
+          ${r.voted ? '✓' : '↑'} ${r.votes}
+        </button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px">
+        <div style="font-size:11px;color:var(--ink);opacity:.35">by ${escHtml(r.author)}</div>
+        <button class="view-map-btn" onclick="focusSubmittedRoute(${r.id})">View on map</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+
+function drawSubmittedRouteOnMap(route) {
+  if (!suggestMap || !route.waypoints || route.waypoints.length < 2) return;
+
+  const sourceId = `submitted-route-${route.id}`;
+  const glowId = `${sourceId}-glow`;
+  const lineId = `${sourceId}-line`;
+
+  const addRouteLayers = () => {
+    if (suggestMap.getSource(sourceId)) return;
+
+    suggestMap.addSource(sourceId, {
+      type: 'geojson',
+      data: {
+        type: 'Feature',
+        properties: { name: route.name },
+        geometry: { type: 'LineString', coordinates: route.waypoints }
+      }
+    });
+
+    suggestMap.addLayer({
+      id: glowId,
+      type: 'line',
+      source: sourceId,
+      paint: {
+        'line-color': route.color,
+        'line-width': 18,
+        'line-opacity': 0.16,
+        'line-blur': 12
+      }
+    }, 'preview-glow');
+
+    suggestMap.addLayer({
+      id: lineId,
+      type: 'line',
+      source: sourceId,
+      paint: {
+        'line-color': route.color,
+        'line-width': 5,
+        'line-opacity': 0.95,
+        'line-dasharray': [2, 1.4]
+      }
+    }, 'preview-line');
+
+    const first = route.waypoints[0];
+    const last = route.waypoints[route.waypoints.length - 1];
+    addSubmittedMarker(first, route, 'Start');
+    addSubmittedMarker(last, route, 'End');
+  };
+
+  if (suggestMap.loaded()) addRouteLayers();
+  else suggestMap.once('load', addRouteLayers);
+}
+
+function addSubmittedMarker(coord, route, label) {
+  const el = document.createElement('div');
+  el.style.cssText = `
+    width:15px;height:15px;border-radius:50%;
+    background:${route.color};border:2px solid #fff;
+    box-shadow:0 0 8px ${route.color}aa;
+    cursor:pointer;
+  `;
+
+  new maplibregl.Marker({ element: el })
+    .setLngLat(coord)
+    .setPopup(new maplibregl.Popup({ offset: 14 }).setHTML(
+      `<strong style="font-family:'Fraunces',serif;color:${route.color}">${escHtml(route.name)}</strong><br>
+       <span style="opacity:.65;font-size:12px">${label} · ${route.pts} waypoints · ${escHtml(route.hood || 'Amsterdam')}</span>`
+    ))
+    .addTo(suggestMap);
+}
+
+window.focusSubmittedRoute = function(id) {
+  const route = submittedRoutes.find(r => r.id === id);
+  if (!route || !route.waypoints || route.waypoints.length < 2) return;
+
+  const bounds = route.waypoints.reduce(
+    (b, coord) => b.extend(coord),
+    new maplibregl.LngLatBounds(route.waypoints[0], route.waypoints[0])
+  );
+
+  suggestMap.fitBounds(bounds, { padding: 70, maxZoom: 15 });
+
+  document.querySelectorAll('.submitted-card').forEach(card => card.classList.remove('active-route'));
+  const index = submittedRoutes.findIndex(r => r.id === id);
+  const card = document.querySelectorAll('.submitted-card')[index];
+  if (card) {
+    card.classList.add('active-route');
+    setTimeout(() => card.classList.remove('active-route'), 1800);
+  }
+};
+
+window.voteRoute = function(id) {
+  const r = submittedRoutes.find(r => r.id === id);
+  if (!r) return;
+  if (r.voted) { r.votes--; r.voted = false; }
+  else { r.votes++; r.voted = true; }
+  renderSubmitted();
+};
+
+function resetForm() {
+  document.getElementById('route-name').value = '';
+  document.getElementById('route-hood').value = '';
+  document.getElementById('route-desc').value = '';
+  document.getElementById('route-author').value = '';
+  document.getElementById('char-left').textContent = '180';
+  waypoints = [];
+  wpMarkers.forEach(m => m.remove());
+  wpMarkers = [];
+  updatePreviewLine();
+  updateWaypointList();
+  updateSubmitBtn();
+  document.getElementById('suggest-hint').classList.remove('hidden');
+  document.querySelectorAll('.color-opt').forEach((o,i) => o.classList.toggle('selected', i===0));
+  selectedColor = '#e85d3a';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 </script>
 </body>
 </html>
